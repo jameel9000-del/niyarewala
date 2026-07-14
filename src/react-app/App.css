@@ -1,381 +1,1039 @@
-import "./App.css";
-
-function App() {
-  const buyItems = [
-    {
-      icon: "🟡",
-      title: "Gold Scrap",
-      items: [
-        "ज्वेलरी स्क्रैप",
-        "गोल्ड डस्ट",
-        "पॉलिशिंग डस्ट",
-        "फिलिंग",
-        "गोल्ड युक्त स्क्रैप",
-      ],
-    },
-    {
-      icon: "⚪",
-      title: "Silver Scrap",
-      items: [
-        "चांदी स्क्रैप",
-        "सिल्वर डस्ट",
-        "सिल्वर युक्त सामग्री",
-        "औद्योगिक सामग्री",
-        "पुरानी चांदी",
-      ],
-    },
-    {
-      icon: "🔥",
-      title: "Crucible & Furnace Waste",
-      items: [
-        "Used Crucible",
-        "Furnace Waste",
-        "Melting Waste",
-        "Slag / Dross",
-        "Ash",
-      ],
-    },
-    {
-      icon: "🧪",
-      title: "Refining & Recovery Waste",
-      items: [
-        "Filter Paper",
-        "Chemical Residue",
-        "Refining Dust",
-        "Process Waste",
-      ],
-    },
-    {
-      icon: "💍",
-      title: "Jewellery Workshop Waste",
-      items: [
-        "Bench Dust",
-        "Floor Sweep",
-        "Polishing Dust",
-        "Buffing Dust",
-        "Workshop Waste",
-      ],
-    },
-    {
-      icon: "⚙️",
-      title: "Precious Metal Scrap",
-      items: [
-        "Platinum",
-        "Palladium",
-        "Gold",
-        "Silver युक्त स्क्रैप",
-      ],
-    },
-  ];
-
-  const metals = [
-    { number: "79", symbol: "Au", name: "GOLD" },
-    { number: "47", symbol: "Ag", name: "SILVER" },
-    { number: "78", symbol: "Pt", name: "PLATINUM" },
-    { number: "46", symbol: "Pd", name: "PALLADIUM" },
-  ];
-
-  const process = [
-    {
-      number: "01",
-      icon: "📦",
-      title: "Material Receive",
-      text: "सामग्री प्राप्त करें",
-    },
-    {
-      number: "02",
-      icon: "🔍",
-      title: "Sorting & Assessment",
-      text: "छंटाई और मूल्यांकन",
-    },
-    {
-      number: "03",
-      icon: "🧪",
-      title: "Testing / Analysis",
-      text: "जांच और विश्लेषण",
-    },
-    {
-      number: "04",
-      icon: "♻️",
-      title: "Recovery & Recycling",
-      text: "रिकवरी और रीसाइक्लिंग",
-    },
-    {
-      number: "05",
-      icon: "🤝",
-      title: "Final Settlement",
-      text: "अंतिम भुगतान",
-    },
-  ];
-
-  return (
-    <div className="app">
-      <header className="top-header">
-        <div className="header-inner">
-          <div className="brand">
-            <div className="brand-icon">♻</div>
-
-            <div>
-              <h1>NIYARE WALA</h1>
-              <p>सोना • चांदी • कीमती धातु रीसाइक्लिंग</p>
-            </div>
-          </div>
-
-          <div className="header-contact">
-            <span>☎ संपर्क करें</span>
-            <span>WhatsApp Chat</span>
-          </div>
-        </div>
-      </header>
-
-      <nav className="navbar">
-        <a href="#home">होम</a>
-        <a href="#rates">आज का भाव</a>
-        <a href="#buy">हम क्या खरीदते हैं</a>
-        <a href="#recovery">हमारी सेवाएं</a>
-        <a href="#process">हमारा काम कैसे होता है</a>
-        <a href="#why">क्यों NIYARE WALA</a>
-        <a href="#contact">संपर्क करें</a>
-      </nav>
-
-      <main>
-        <section className="hero" id="home">
-          <div className="hero-content">
-            <p className="hero-small">
-              ─── कीमती धातु को दोबारा मूल्य में बदलें ───
-            </p>
-
-            <h2>
-              सोना, चांदी, प्लेटिनम और पैलेडियम
-              <br />
-              युक्त स्क्रैप की रीसाइक्लिंग और रिकवरी।
-            </h2>
-
-            <p className="hero-description">
-              Precious Metal Bearing Scrap, Jewellery Workshop Waste और
-              Process Waste की जांच, मूल्यांकन और रिकवरी।
-            </p>
-
-            <div className="hero-buttons">
-              <a className="gold-button" href="#rates">
-                आज का भाव देखें
-              </a>
-
-              <a className="dark-button" href="#contact">
-                हमसे संपर्क करें
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-art">
-            <div className="gold-bars">▰ ▰ ▰</div>
-            <div className="recycle-symbol">♻</div>
-            <p>PRECIOUS METAL RECOVERY</p>
-          </div>
-        </section>
-
-        <section className="section rates-section" id="rates">
-          <div className="section-title">
-            <span></span>
-            <h2>आज का सोना चांदी भाव</h2>
-            <span></span>
-          </div>
-
-          <div className="rates-grid">
-            <div className="rate-card gold-rate">
-              <div className="rate-left">
-                <div className="metal-icon">🟨</div>
-
-                <div>
-                  <h3>GOLD 999</h3>
-                  <p>24 कैरेट सोना</p>
-                </div>
-              </div>
-
-              <div className="rate-price">
-                <strong>₹ --.--</strong>
-                <span>/ 10 ग्राम</span>
-              </div>
-            </div>
-
-            <div className="rate-card silver-rate">
-              <div className="rate-left">
-                <div className="metal-icon">⬜</div>
-
-                <div>
-                  <h3>SILVER 999</h3>
-                  <p>शुद्ध चांदी</p>
-                </div>
-              </div>
-
-              <div className="rate-price">
-                <strong>₹ --.--</strong>
-                <span>/ 1 किलो</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="rate-update">
-            <span>◷ अंतिम अपडेट: --</span>
-            <span>भाव बाजार के अनुसार बदल सकते हैं।</span>
-          </div>
-        </section>
-
-        <section className="section" id="buy">
-          <div className="section-title">
-            <span></span>
-            <h2>हम क्या खरीदते हैं</h2>
-            <span></span>
-          </div>
-
-          <div className="buy-grid">
-            {buyItems.map((item) => (
-              <article className="buy-card" key={item.title}>
-                <div className="buy-icon">{item.icon}</div>
-                <h3>{item.title}</h3>
-
-                <ul>
-                  {item.items.map((listItem) => (
-                    <li key={listItem}>{listItem}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="recovery-section" id="recovery">
-          <div className="recovery-content">
-            <div className="recovery-text">
-              <h2>PRECIOUS METAL RECOVERY</h2>
-              <h3>Gold | Silver | Platinum | Palladium</h3>
-
-              <p>
-                विभिन्न प्रकार के Precious Metal Bearing Scrap और Process
-                Waste की जांच एवं रिकवरी।
-              </p>
-            </div>
-
-            <div className="metals-grid">
-              {metals.map((metal) => (
-                <div className="metal-circle" key={metal.symbol}>
-                  <small>{metal.number}</small>
-                  <strong>{metal.symbol}</strong>
-                  <span>{metal.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section" id="process">
-          <div className="section-title">
-            <span></span>
-            <h2>हमारा काम कैसे होता है</h2>
-            <span></span>
-          </div>
-
-          <div className="process-grid">
-            {process.map((step, index) => (
-              <div className="process-item" key={step.number}>
-                <span className="step-number">{step.number}</span>
-
-                <div className="process-icon">{step.icon}</div>
-
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-
-                {index < process.length - 1 && (
-                  <span className="process-arrow">→</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section" id="why">
-          <div className="section-title">
-            <span></span>
-            <h2>क्यों NIYARE WALA</h2>
-            <span></span>
-          </div>
-
-          <div className="why-grid">
-            <div className="why-card">
-              <div>🛡️</div>
-              <h3>28+ Years Experience</h3>
-              <p>कीमती धातु और बेस मेटल रिकवरी में वर्षों का अनुभव।</p>
-            </div>
-
-            <div className="why-card">
-              <div>⚖️</div>
-              <h3>Transparent Working</h3>
-              <p>पूरी तरह पारदर्शी प्रक्रिया और सही मूल्यांकन।</p>
-            </div>
-
-            <div className="why-card">
-              <div>🏅</div>
-              <h3>Material Assessment</h3>
-              <p>सामग्री की जांच और उचित मूल्यांकन।</p>
-            </div>
-
-            <div className="why-card">
-              <div>🎧</div>
-              <h3>Direct & Easy Contact</h3>
-              <p>सीधा संपर्क और बेहतर समाधान।</p>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <section className="contact-bar" id="contact">
-        <div>
-          <h2>क्या आपके पास Precious Metal Scrap है?</h2>
-          <p>जांच और मूल्यांकन के लिए हमसे संपर्क करें।</p>
-        </div>
-
-        <div className="contact-buttons">
-          <button>☎ Call Now</button>
-          <button>✉ Send Enquiry</button>
-        </div>
-      </section>
-
-      <footer>
-        <div className="footer-grid">
-          <div>
-            <h2>♻ NIYARE WALA</h2>
-            <p>सोना • चांदी • कीमती धातु रीसाइक्लिंग</p>
-            <small>
-              Gold | Silver | Platinum | Palladium Recovery
-            </small>
-          </div>
-
-          <div>
-            <h3>हमारी सेवाएं</h3>
-            <p>✓ Precious Metal Recovery</p>
-            <p>✓ Scrap Buying</p>
-            <p>✓ Material Assessment</p>
-            <p>✓ Recycling & Refining</p>
-          </div>
-
-          <div>
-            <h3>संपर्क करें</h3>
-            <p>☎ अपना मोबाइल नंबर</p>
-            <p>✉ अपनी ईमेल</p>
-            <p>📍 India</p>
-          </div>
-        </div>
-
-        <div className="copyright">
-          © 2026 NIYARE WALA. All Rights Reserved.
-        </div>
-      </footer>
-
-      <a className="whatsapp-float" href="#contact">
-        ☎ WhatsApp पर बात करें
-      </a>
-    </div>
-  );
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-export default App;
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #161616;
+  line-height: 1.5;
+}
+
+button,
+a {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* HEADER */
+
+.top-header {
+  width: 100%;
+  background: #080808;
+  color: #ffffff;
+  border-bottom: 1px solid #272727;
+}
+
+.header-inner {
+  width: 100%;
+  max-width: 1450px;
+  min-height: 88px;
+  margin: 0 auto;
+  padding: 14px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 43px;
+  color: #d3a421;
+}
+
+.brand h1 {
+  color: #d6aa2d;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.brand p {
+  margin-top: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.header-contact {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.header-contact span:last-child {
+  color: #39d66c;
+}
+
+/* NAVBAR */
+
+.navbar {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.navbar a {
+  color: #222222;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 17px 0 14px;
+  border-bottom: 3px solid transparent;
+  transition: 0.25s;
+}
+
+.navbar a:hover {
+  color: #b8860b;
+  border-bottom-color: #c99b1c;
+}
+
+/* HERO */
+
+.hero {
+  width: 100%;
+  min-height: 430px;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  background:
+    radial-gradient(circle at 80% 50%, rgba(210, 165, 40, 0.18), transparent 30%),
+    linear-gradient(110deg, #fffdf7 0%, #ffffff 54%, #f7edd2 100%);
+  overflow: hidden;
+}
+
+.hero-content {
+  padding: 68px 55px 65px max(55px, calc((100vw - 1450px) / 2 + 35px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-small {
+  color: #a97905;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero h2 {
+  max-width: 850px;
+  font-size: clamp(34px, 3.5vw, 60px);
+  line-height: 1.25;
+  font-weight: 900;
+  color: #111111;
+}
+
+.hero-description {
+  max-width: 760px;
+  margin-top: 22px;
+  color: #555555;
+  font-size: 17px;
+}
+
+.hero-buttons {
+  margin-top: 32px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.gold-button,
+.dark-button {
+  min-width: 190px;
+  padding: 15px 24px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gold-button:hover,
+.dark-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.gold-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, #b98405, #d8aa2b);
+}
+
+.dark-button {
+  color: #ffffff;
+  background: #0a0a0a;
+}
+
+.hero-art {
+  min-height: 430px;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 35%),
+    linear-gradient(135deg, #f7e6b4, #d3a42b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-art::before,
+.hero-art::after {
+  content: "";
+  position: absolute;
+  width: 210px;
+  height: 110px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f6d76c, #9e6900);
+  box-shadow: 0 20px 35px rgba(81, 50, 0, 0.25);
+  transform: rotate(-12deg);
+}
+
+.hero-art::before {
+  top: 80px;
+  right: 55px;
+}
+
+.hero-art::after {
+  bottom: 65px;
+  left: 35px;
+  transform: rotate(13deg);
+}
+
+.gold-bars {
+  position: relative;
+  z-index: 3;
+  font-size: 75px;
+  color: #8b5a00;
+  letter-spacing: -20px;
+  text-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.recycle-symbol {
+  position: relative;
+  z-index: 4;
+  margin-top: 8px;
+  font-size: 82px;
+  color: #111111;
+}
+
+.hero-art p {
+  position: relative;
+  z-index: 4;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* COMMON SECTION */
+
+.section {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 52px 35px;
+}
+
+.section-title {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.section-title span {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c99b1c);
+}
+
+.section-title span:last-child {
+  background: linear-gradient(90deg, #c99b1c, transparent);
+}
+
+.section-title h2 {
+  color: #171717;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+}
+
+/* RATES */
+
+.rates-section {
+  padding-top: 38px;
+  padding-bottom: 30px;
+}
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.rate-card {
+  min-height: 145px;
+  padding: 25px 30px;
+  border: 1px solid #dedede;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.06);
+}
+
+.gold-rate {
+  background: linear-gradient(135deg, #fffdf6, #fff8e6);
+  border-color: #e6ca82;
+}
+
+.silver-rate {
+  background: linear-gradient(135deg, #ffffff, #f3f3f3);
+}
+
+.rate-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.metal-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 38px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.rate-left h3 {
+  color: #b27d00;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.silver-rate .rate-left h3 {
+  color: #666666;
+}
+
+.rate-left p {
+  margin-top: 6px;
+  font-size: 16px;
+  color: #333333;
+}
+
+.rate-price {
+  min-width: 190px;
+  padding-left: 30px;
+  border-left: 1px solid #d4d4d4;
+  display: flex;
+  flex-direction: column;
+}
+
+.rate-price strong {
+  color: #111111;
+  font-size: 37px;
+  line-height: 1.1;
+}
+
+.rate-price span {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.rate-update {
+  padding: 18px 20px 0;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  color: #555555;
+  font-size: 14px;
+}
+
+/* BUY ITEMS */
+
+.buy-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.buy-card {
+  min-height: 330px;
+  padding: 22px 18px;
+  border: 1px solid #e4e4e4;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.055);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.buy-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 13px 28px rgba(0, 0, 0, 0.1);
+}
+
+.buy-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff7df;
+  font-size: 35px;
+}
+
+.buy-card h3 {
+  min-height: 52px;
+  color: #7b5200;
+  font-size: 18px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.buy-card ul {
+  margin-top: 18px;
+  padding-left: 19px;
+}
+
+.buy-card li {
+  margin-bottom: 8px;
+  color: #333333;
+  font-size: 14px;
+}
+
+/* RECOVERY */
+
+.recovery-section {
+  width: 100%;
+  background:
+    radial-gradient(circle at 75% 50%, rgba(210, 165, 40, 0.1), transparent 28%),
+    #090909;
+  color: #ffffff;
+}
+
+.recovery-content {
+  width: 100%;
+  max-width: 1450px;
+  min-height: 300px;
+  margin: 0 auto;
+  padding: 48px 35px;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  align-items: center;
+  gap: 45px;
+}
+
+.recovery-text h2 {
+  color: #d7aa31;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.recovery-text h3 {
+  margin-top: 6px;
+  color: #e0b747;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.recovery-text p {
+  max-width: 520px;
+  margin-top: 20px;
+  color: #eeeeee;
+  font-size: 16px;
+}
+
+.metals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.metal-circle {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  border: 2px solid #d0a327;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.metal-circle small {
+  color: #d7aa31;
+  font-size: 14px;
+}
+
+.metal-circle strong {
+  margin: 3px 0;
+  color: #eeeeee;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.metal-circle span {
+  color: #d7aa31;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* PROCESS */
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.process-item {
+  min-height: 210px;
+  padding: 18px 15px;
+  position: relative;
+  text-align: center;
+}
+
+.step-number {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.process-icon {
+  width: 88px;
+  height: 88px;
+  margin: 10px auto 15px;
+  border-radius: 50%;
+  background: #fff7df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+}
+
+.process-item h3 {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.process-item p {
+  margin-top: 7px;
+  color: #555555;
+  font-size: 14px;
+}
+
+.process-arrow {
+  position: absolute;
+  top: 70px;
+  right: -17px;
+  color: #c39113;
+  font-size: 30px;
+}
+
+/* WHY */
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.why-card {
+  min-height: 180px;
+  padding: 25px 22px;
+  border: 1px solid #e3e3e3;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 5px 17px rgba(0, 0, 0, 0.05);
+}
+
+.why-card > div {
+  font-size: 42px;
+}
+
+.why-card h3 {
+  margin-top: 12px;
+  font-size: 17px;
+}
+
+.why-card p {
+  margin-top: 9px;
+  color: #555555;
+  font-size: 14px;
+}
+
+/* CONTACT */
+
+.contact-bar {
+  width: 100%;
+  padding: 35px max(35px, calc((100vw - 1380px) / 2));
+  background: linear-gradient(135deg, #c99516, #e2b943);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.contact-bar h2 {
+  color: #111111;
+  font-size: 28px;
+}
+
+.contact-bar p {
+  margin-top: 5px;
+  color: #302400;
+}
+
+.contact-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.contact-buttons button {
+  min-width: 170px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 30px;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* FOOTER */
+
+footer {
+  width: 100%;
+  background: #070707;
+  color: #ffffff;
+}
+
+.footer-grid {
+  width: 100%;
+  max-width: 1450px;
+  margin: auto;
+  padding: 45px 35px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 50px;
+}
+
+.footer-grid h2 {
+  color: #d6aa2d;
+  font-size: 29px;
+}
+
+.footer-grid h3 {
+  margin-bottom: 15px;
+  color: #d6aa2d;
+}
+
+.footer-grid p {
+  margin-bottom: 8px;
+  color: #dddddd;
+  font-size: 14px;
+}
+
+.footer-grid small {
+  color: #aaaaaa;
+}
+
+.copyright {
+  width: 100%;
+  padding: 18px 25px;
+  border-top: 1px solid #252525;
+  color: #999999;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* WHATSAPP */
+
+.whatsapp-float {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 200;
+  padding: 14px 22px;
+  border-radius: 40px;
+  background: #0dbf4b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* TABLET */
+
+@media (max-width: 1150px) {
+  .navbar {
+    gap: 25px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .buy-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .recovery-content {
+    grid-template-columns: 1fr;
+  }
+
+  .recovery-text {
+    text-align: center;
+  }
+
+  .recovery-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  .header-inner {
+    min-height: 72px;
+    padding: 12px 16px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 32px;
+  }
+
+  .brand h1 {
+    font-size: 21px;
+  }
+
+  .brand p {
+    font-size: 10px;
+  }
+
+  .header-contact {
+    display: none;
+  }
+
+  .navbar {
+    min-height: 48px;
+    padding: 0 15px;
+    gap: 28px;
+    white-space: nowrap;
+  }
+
+  .navbar a {
+    font-size: 13px;
+    padding: 14px 0 11px;
+  }
+
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    padding: 42px 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-small {
+    font-size: 13px;
+  }
+
+  .hero h2 {
+    font-size: 31px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .gold-button,
+  .dark-button {
+    min-width: 0;
+    width: calc(50% - 9px);
+    padding: 13px 10px;
+    font-size: 13px;
+  }
+
+  .hero-art {
+    min-height: 260px;
+  }
+
+  .hero-art::before,
+  .hero-art::after {
+    width: 130px;
+    height: 70px;
+  }
+
+  .gold-bars {
+    font-size: 50px;
+  }
+
+  .recycle-symbol {
+    font-size: 60px;
+  }
+
+  .section {
+    padding: 38px 14px;
+  }
+
+  .section-title {
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+
+  .section-title span {
+    width: 35px;
+  }
+
+  .section-title h2 {
+    font-size: 23px;
+  }
+
+  .rates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rate-card {
+    min-height: 120px;
+    padding: 18px 15px;
+  }
+
+  .rate-left {
+    gap: 11px;
+  }
+
+  .metal-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
+  .rate-left h3 {
+    font-size: 20px;
+  }
+
+  .rate-left p {
+    font-size: 13px;
+  }
+
+  .rate-price {
+    min-width: 110px;
+    padding-left: 15px;
+  }
+
+  .rate-price strong {
+    font-size: 25px;
+  }
+
+  .rate-price span {
+    font-size: 12px;
+  }
+
+  .rate-update {
+    flex-direction: column;
+    text-align: center;
+    gap: 5px;
+  }
+
+  .buy-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11px;
+  }
+
+  .buy-card {
+    min-height: 310px;
+    padding: 18px 13px;
+  }
+
+  .buy-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 28px;
+  }
+
+  .buy-card h3 {
+    font-size: 15px;
+  }
+
+  .buy-card li {
+    font-size: 12px;
+  }
+
+  .recovery-content {
+    padding: 40px 15px;
+  }
+
+  .recovery-text h2 {
+    font-size: 27px;
+  }
+
+  .recovery-text h3 {
+    font-size: 17px;
+  }
+
+  .metals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .metal-circle {
+    width: 125px;
+    height: 125px;
+  }
+
+  .metal-circle strong {
+    font-size: 34px;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process-item {
+    min-height: 185px;
+  }
+
+  .process-arrow {
+    top: auto;
+    right: 50%;
+    bottom: -10px;
+    transform: translateX(50%) rotate(90deg);
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11px;
+  }
+
+  .why-card {
+    min-height: 200px;
+    padding: 20px 12px;
+  }
+
+  .why-card h3 {
+    font-size: 15px;
+  }
+
+  .why-card p {
+    font-size: 12px;
+  }
+
+  .contact-bar {
+    padding: 30px 18px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .contact-bar h2 {
+    font-size: 23px;
+  }
+
+  .contact-buttons {
+    width: 100%;
+  }
+
+  .contact-buttons button {
+    min-width: 0;
+    width: 50%;
+    font-size: 13px;
+  }
+
+  .footer-grid {
+    padding: 38px 20px;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .whatsapp-float {
+    left: 12px;
+    bottom: 12px;
+    padding: 12px 17px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h2 {
+    font-size: 27px;
+  }
+
+  .buy-grid,
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .buy-card {
+    min-height: auto;
+  }
+}
