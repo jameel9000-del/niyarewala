@@ -1,88 +1,381 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+import "./App.css";
+
+function App() {
+  const buyItems = [
+    {
+      icon: "🟡",
+      title: "Gold Scrap",
+      items: [
+        "ज्वेलरी स्क्रैप",
+        "गोल्ड डस्ट",
+        "पॉलिशिंग डस्ट",
+        "फिलिंग",
+        "गोल्ड युक्त स्क्रैप",
+      ],
+    },
+    {
+      icon: "⚪",
+      title: "Silver Scrap",
+      items: [
+        "चांदी स्क्रैप",
+        "सिल्वर डस्ट",
+        "सिल्वर युक्त सामग्री",
+        "औद्योगिक सामग्री",
+        "पुरानी चांदी",
+      ],
+    },
+    {
+      icon: "🔥",
+      title: "Crucible & Furnace Waste",
+      items: [
+        "Used Crucible",
+        "Furnace Waste",
+        "Melting Waste",
+        "Slag / Dross",
+        "Ash",
+      ],
+    },
+    {
+      icon: "🧪",
+      title: "Refining & Recovery Waste",
+      items: [
+        "Filter Paper",
+        "Chemical Residue",
+        "Refining Dust",
+        "Process Waste",
+      ],
+    },
+    {
+      icon: "💍",
+      title: "Jewellery Workshop Waste",
+      items: [
+        "Bench Dust",
+        "Floor Sweep",
+        "Polishing Dust",
+        "Buffing Dust",
+        "Workshop Waste",
+      ],
+    },
+    {
+      icon: "⚙️",
+      title: "Precious Metal Scrap",
+      items: [
+        "Platinum",
+        "Palladium",
+        "Gold",
+        "Silver युक्त स्क्रैप",
+      ],
+    },
+  ];
+
+  const metals = [
+    { number: "79", symbol: "Au", name: "GOLD" },
+    { number: "47", symbol: "Ag", name: "SILVER" },
+    { number: "78", symbol: "Pt", name: "PLATINUM" },
+    { number: "46", symbol: "Pd", name: "PALLADIUM" },
+  ];
+
+  const process = [
+    {
+      number: "01",
+      icon: "📦",
+      title: "Material Receive",
+      text: "सामग्री प्राप्त करें",
+    },
+    {
+      number: "02",
+      icon: "🔍",
+      title: "Sorting & Assessment",
+      text: "छंटाई और मूल्यांकन",
+    },
+    {
+      number: "03",
+      icon: "🧪",
+      title: "Testing / Analysis",
+      text: "जांच और विश्लेषण",
+    },
+    {
+      number: "04",
+      icon: "♻️",
+      title: "Recovery & Recycling",
+      text: "रिकवरी और रीसाइक्लिंग",
+    },
+    {
+      number: "05",
+      icon: "🤝",
+      title: "Final Settlement",
+      text: "अंतिम भुगतान",
+    },
+  ];
+
+  return (
+    <div className="app">
+      <header className="top-header">
+        <div className="header-inner">
+          <div className="brand">
+            <div className="brand-icon">♻</div>
+
+            <div>
+              <h1>NIYARE WALA</h1>
+              <p>सोना • चांदी • कीमती धातु रीसाइक्लिंग</p>
+            </div>
+          </div>
+
+          <div className="header-contact">
+            <span>☎ संपर्क करें</span>
+            <span>WhatsApp Chat</span>
+          </div>
+        </div>
+      </header>
+
+      <nav className="navbar">
+        <a href="#home">होम</a>
+        <a href="#rates">आज का भाव</a>
+        <a href="#buy">हम क्या खरीदते हैं</a>
+        <a href="#recovery">हमारी सेवाएं</a>
+        <a href="#process">हमारा काम कैसे होता है</a>
+        <a href="#why">क्यों NIYARE WALA</a>
+        <a href="#contact">संपर्क करें</a>
+      </nav>
+
+      <main>
+        <section className="hero" id="home">
+          <div className="hero-content">
+            <p className="hero-small">
+              ─── कीमती धातु को दोबारा मूल्य में बदलें ───
+            </p>
+
+            <h2>
+              सोना, चांदी, प्लेटिनम और पैलेडियम
+              <br />
+              युक्त स्क्रैप की रीसाइक्लिंग और रिकवरी।
+            </h2>
+
+            <p className="hero-description">
+              Precious Metal Bearing Scrap, Jewellery Workshop Waste और
+              Process Waste की जांच, मूल्यांकन और रिकवरी।
+            </p>
+
+            <div className="hero-buttons">
+              <a className="gold-button" href="#rates">
+                आज का भाव देखें
+              </a>
+
+              <a className="dark-button" href="#contact">
+                हमसे संपर्क करें
+              </a>
+            </div>
+          </div>
+
+          <div className="hero-art">
+            <div className="gold-bars">▰ ▰ ▰</div>
+            <div className="recycle-symbol">♻</div>
+            <p>PRECIOUS METAL RECOVERY</p>
+          </div>
+        </section>
+
+        <section className="section rates-section" id="rates">
+          <div className="section-title">
+            <span></span>
+            <h2>आज का सोना चांदी भाव</h2>
+            <span></span>
+          </div>
+
+          <div className="rates-grid">
+            <div className="rate-card gold-rate">
+              <div className="rate-left">
+                <div className="metal-icon">🟨</div>
+
+                <div>
+                  <h3>GOLD 999</h3>
+                  <p>24 कैरेट सोना</p>
+                </div>
+              </div>
+
+              <div className="rate-price">
+                <strong>₹ --.--</strong>
+                <span>/ 10 ग्राम</span>
+              </div>
+            </div>
+
+            <div className="rate-card silver-rate">
+              <div className="rate-left">
+                <div className="metal-icon">⬜</div>
+
+                <div>
+                  <h3>SILVER 999</h3>
+                  <p>शुद्ध चांदी</p>
+                </div>
+              </div>
+
+              <div className="rate-price">
+                <strong>₹ --.--</strong>
+                <span>/ 1 किलो</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="rate-update">
+            <span>◷ अंतिम अपडेट: --</span>
+            <span>भाव बाजार के अनुसार बदल सकते हैं।</span>
+          </div>
+        </section>
+
+        <section className="section" id="buy">
+          <div className="section-title">
+            <span></span>
+            <h2>हम क्या खरीदते हैं</h2>
+            <span></span>
+          </div>
+
+          <div className="buy-grid">
+            {buyItems.map((item) => (
+              <article className="buy-card" key={item.title}>
+                <div className="buy-icon">{item.icon}</div>
+                <h3>{item.title}</h3>
+
+                <ul>
+                  {item.items.map((listItem) => (
+                    <li key={listItem}>{listItem}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="recovery-section" id="recovery">
+          <div className="recovery-content">
+            <div className="recovery-text">
+              <h2>PRECIOUS METAL RECOVERY</h2>
+              <h3>Gold | Silver | Platinum | Palladium</h3>
+
+              <p>
+                विभिन्न प्रकार के Precious Metal Bearing Scrap और Process
+                Waste की जांच एवं रिकवरी।
+              </p>
+            </div>
+
+            <div className="metals-grid">
+              {metals.map((metal) => (
+                <div className="metal-circle" key={metal.symbol}>
+                  <small>{metal.number}</small>
+                  <strong>{metal.symbol}</strong>
+                  <span>{metal.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section" id="process">
+          <div className="section-title">
+            <span></span>
+            <h2>हमारा काम कैसे होता है</h2>
+            <span></span>
+          </div>
+
+          <div className="process-grid">
+            {process.map((step, index) => (
+              <div className="process-item" key={step.number}>
+                <span className="step-number">{step.number}</span>
+
+                <div className="process-icon">{step.icon}</div>
+
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+
+                {index < process.length - 1 && (
+                  <span className="process-arrow">→</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="why">
+          <div className="section-title">
+            <span></span>
+            <h2>क्यों NIYARE WALA</h2>
+            <span></span>
+          </div>
+
+          <div className="why-grid">
+            <div className="why-card">
+              <div>🛡️</div>
+              <h3>28+ Years Experience</h3>
+              <p>कीमती धातु और बेस मेटल रिकवरी में वर्षों का अनुभव।</p>
+            </div>
+
+            <div className="why-card">
+              <div>⚖️</div>
+              <h3>Transparent Working</h3>
+              <p>पूरी तरह पारदर्शी प्रक्रिया और सही मूल्यांकन।</p>
+            </div>
+
+            <div className="why-card">
+              <div>🏅</div>
+              <h3>Material Assessment</h3>
+              <p>सामग्री की जांच और उचित मूल्यांकन।</p>
+            </div>
+
+            <div className="why-card">
+              <div>🎧</div>
+              <h3>Direct & Easy Contact</h3>
+              <p>सीधा संपर्क और बेहतर समाधान।</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <section className="contact-bar" id="contact">
+        <div>
+          <h2>क्या आपके पास Precious Metal Scrap है?</h2>
+          <p>जांच और मूल्यांकन के लिए हमसे संपर्क करें।</p>
+        </div>
+
+        <div className="contact-buttons">
+          <button>☎ Call Now</button>
+          <button>✉ Send Enquiry</button>
+        </div>
+      </section>
+
+      <footer>
+        <div className="footer-grid">
+          <div>
+            <h2>♻ NIYARE WALA</h2>
+            <p>सोना • चांदी • कीमती धातु रीसाइक्लिंग</p>
+            <small>
+              Gold | Silver | Platinum | Palladium Recovery
+            </small>
+          </div>
+
+          <div>
+            <h3>हमारी सेवाएं</h3>
+            <p>✓ Precious Metal Recovery</p>
+            <p>✓ Scrap Buying</p>
+            <p>✓ Material Assessment</p>
+            <p>✓ Recycling & Refining</p>
+          </div>
+
+          <div>
+            <h3>संपर्क करें</h3>
+            <p>☎ अपना मोबाइल नंबर</p>
+            <p>✉ अपनी ईमेल</p>
+            <p>📍 India</p>
+          </div>
+        </div>
+
+        <div className="copyright">
+          © 2026 NIYARE WALA. All Rights Reserved.
+        </div>
+      </footer>
+
+      <a className="whatsapp-float" href="#contact">
+        ☎ WhatsApp पर बात करें
+      </a>
+    </div>
+  );
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
-  color: #111111;
-}
-
-.app {
-  min-height: 100vh;
-  width: 100%;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  width: 100%;
-  text-align: center;
-  padding: 28px 15px 18px;
-  background: #ffffff;
-  border-bottom: 1px solid #eeeeee;
-}
-
-header h1 {
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: #111111;
-}
-
-header p {
-  margin-top: 8px;
-  font-size: 16px;
-  color: #666666;
-}
-
-main {
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 28px 18px;
-  flex: 1;
-}
-
-.rate-card {
-  width: 100%;
-  min-height: 145px;
-  border-radius: 22px;
-  padding: 24px;
-  margin-bottom: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-}
-
-.rate-card.gold {
-  background: linear-gradient(135deg, #fffdf4, #fff7d6);
-}
-
-.rate-card.silver {
-  background: linear-gradient(135deg, #ffffff, #f1f3f5);
-}
-
-.rate-info {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.icon {
-  width: 58px;
-  height: 58px;
-  border
+export default App;
