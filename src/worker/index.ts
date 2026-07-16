@@ -12,7 +12,7 @@ type Adjustment = { mode: "fixed" | "percentage"; value: number };
 
 type MetalState = {
   apiStatus: {
-    provider: "Metals.Dev";
+    provider: "IBJA";
     status: "Connected" | "Error";
     lastSuccessfulUpdate: string | null;
     nextScheduledUpdate: string;
@@ -32,13 +32,12 @@ type MetalState = {
 
 type WorkerEnv = Env & {
   METAL_STATE_KV?: KVNamespace;
-  METALS_DEV_API_KEY?: string;
   ADMIN_API_TOKEN?: string;
 };
 
 const app = new Hono<{ Bindings: WorkerEnv }>();
 const STORAGE_KEY = "niyarewala-metal-prices-v1";
-const METALS_API_URL = "https://api.metals.dev/v1/latest";
+const IBJA_RATES_URL = "https://ibjarates.com/index.aspx";
 const INDIA_KOLKATA_TZ = "Asia/Kolkata";
 const REFRESH_INTERVAL_MS = 3_600_000;
 const FIXED_SCHEDULE = "Every 60 minutes" as const;
@@ -65,7 +64,7 @@ function formatScheduleLabel(date: Date) {
 
 function createInitialState(): MetalState {
   return {
-    apiStatus: { provider: "Metals.Dev", status: "Error", lastSuccessfulUpdate: null, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), apiUsageCounter: "-" },
+    apiStatus: { provider: "IBJA", status: "Error", lastSuccessfulUpdate: null, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), apiUsageCounter: "-" },
     schedule: FIXED_SCHEDULE,
     timezone: INDIA_KOLKATA_TZ,
     gold999Adjustment: { mode: "fixed", value: 0 }, gold995Adjustment: { mode: "fixed", value: 0 }, silver999Adjustment: { mode: "fixed", value: 0 },
@@ -97,72 +96,52 @@ function validateSettings(body: unknown) {
   return true;
 }
 
-function toPricePerGram(value: number, unit: string) {
-  switch (unit.toLowerCase()) {
-    case "g": case "gram": case "grams": return value;
-    case "kg": case "kilogram": case "kilograms": return value / 1000;
-    case "toz": case "troy_oz": case "troy ounce": return value / 31.1034768;
-    default: throw new Error(`Unsupported Metals.Dev unit: ${unit}`);
+function extractRateById(html: string, id: string) {
+  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`<span[^>]*id=["']${escapedId}["'][^>]*>\\s*([^<]*)`, "i");
+  const match = html.match(regex);
+  if (!match) {
+    return null;
   }
+
+  const normalized = match[1].replace(/,/g, "").trim();
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = Number.parseInt(normalized, 10);
+  if (!Number.isFinite(parsed)) {
+    return null;
+  }
+  return parsed;
 }
 
-function readPriceValue(source: any, aliases: string[]) {
-  const containers = [source?.metals, source?.data, source?.rates, source?.ibja, source];
-  for (const container of containers) {
-    if (!container || typeof container !== "object") {
-      continue;
-    }
-
-    const entries = Object.entries(container as Record<string, unknown>);
-    const lowerCaseMap = new Map(entries.map(([key, value]) => [key.toLowerCase(), value]));
-    for (const alias of aliases) {
-      const value = lowerCaseMap.get(alias.toLowerCase());
-      if (typeof value === "number") {
-        return value;
-      }
-      if (value && typeof value === "object") {
-        const price = (value as { price?: unknown; value?: unknown }).price;
-        const fallback = (value as { price?: unknown; value?: unknown }).value;
-        if (typeof price === "number") {
-          return price;
-        }
-        if (typeof fallback === "number") {
-          return fallback;
-        }
-      }
-    }
+function extractLiveIbjaRate(html: string, key: "Gold999" | "Gold995" | "Silver999" | "Platinum999") {
+  const pmValue = extractRateById(html, `lbl${key}_PM`);
+  if (typeof pmValue === "number") {
+    return pmValue;
   }
-  return null;
+
+  const amValue = extractRateById(html, `lbl${key}_AM`);
+  if (typeof amValue === "number") {
+    return amValue;
+  }
+
+  throw new Error(`IBJA page is missing live ${key} rate.`);
 }
 
-function computeSnapshotFromApi(json: any): Snapshot {
-  if (!json || json.status !== "success") throw new Error(json?.error_message || "Invalid Metals.Dev response.");
-  const gold = readPriceValue(json, ["gold", "gold_999", "gold999", "xau", "24k", "24kt"]);
-  const silver = readPriceValue(json, ["silver", "silver_999", "silver999", "xag"]);
-  const platinum = readPriceValue(json, ["platinum", "platinum_999", "platinum999", "xpt", "pt"]);
-  if (typeof gold !== "number" || typeof silver !== "number" || typeof platinum !== "number") {
-    throw new Error("Metals API response is missing gold, silver or platinum rates.");
-  }
-  const unit = json.unit ?? "g";
-  const goldPerGram = toPricePerGram(gold, unit);
-  const silverPerGram = toPricePerGram(silver, unit);
-  const platinumPerGram = toPricePerGram(platinum, unit);
-
-  let timestampStr: string;
-  if (typeof json.timestamp === "number") {
-    timestampStr = new Date(json.timestamp * 1000).toISOString();
-  } else if (typeof json.timestamp === "string") {
-    timestampStr = json.timestamp;
-  } else {
-    timestampStr = new Date().toISOString();
-  }
+function computeSnapshotFromIbjaHtml(html: string): Snapshot {
+  const gold999 = extractLiveIbjaRate(html, "Gold999");
+  const gold995 = extractLiveIbjaRate(html, "Gold995");
+  const silver999 = extractLiveIbjaRate(html, "Silver999");
+  const platinum999 = extractLiveIbjaRate(html, "Platinum999");
 
   return {
-    timestamp: timestampStr,
-    gold999Price: Math.round(goldPerGram * 10), // ₹ / 10 g
-    gold995Price: Math.round(goldPerGram * 10 * 0.995), // ₹ / 10 g at 99.5% purity
-    silver999Price: Math.round(silverPerGram * 1000), // ₹ / kg
-    platinum999Price: Math.round(platinumPerGram * 10), // ₹ / 10 g
+    timestamp: new Date().toISOString(),
+    gold999Price: gold999,
+    gold995Price: gold995,
+    silver999Price: silver999,
+    platinum999Price: platinum999,
   };
 }
 
@@ -194,9 +173,22 @@ function changeFor(current: number | null, previous: number | null) {
     : { difference: Math.round(Math.abs(difference)), percentage: Number(Math.abs((difference / previous) * 100).toFixed(2)), direction: difference > 0 ? "up" as const : "down" as const };
 }
 
+function rawRatesFor(snapshot: Snapshot | null) {
+  if (!snapshot) {
+    return { gold999: null, gold995: null, silver999: null, platinum999: null };
+  }
+
+  return {
+    gold999: snapshot.gold999Price,
+    gold995: snapshot.gold995Price,
+    silver999: snapshot.silver999Price,
+    platinum999: snapshot.platinum999Price,
+  };
+}
+
 function formatSnapshotForResponse(state: MetalState) {
-  const current = ratesFor(state.currentSnapshot, state, true);
-  const previous = ratesFor(state.previousSnapshot, state);
+  const current = rawRatesFor(state.currentSnapshot);
+  const previous = rawRatesFor(state.previousSnapshot);
   return {
     currentSnapshot: state.currentSnapshot, previousSnapshot: state.previousSnapshot,
     gold999Price: current.gold999, gold995Price: current.gold995, silver999Price: current.silver999, platinum999Price: current.platinum999,
@@ -206,8 +198,26 @@ function formatSnapshotForResponse(state: MetalState) {
     lastSuccessfulUpdate: state.apiStatus.lastSuccessfulUpdate, manualOverride: state.manualPriceMode,
     adminAdjustments: { gold999Adjustment: state.gold999Adjustment, gold995Adjustment: state.gold995Adjustment, silver999Adjustment: state.silver999Adjustment },
     manualPrices: state.manualPrices,
-    currentSavedRates: ratesFor(state.currentSnapshot, state), previousSavedRates: previous,
+    currentSavedRates: ratesFor(state.currentSnapshot, state), previousSavedRates: ratesFor(state.previousSnapshot, state),
   };
+}
+
+function shouldRefreshState(state: MetalState) {
+  if (!state.currentSnapshot) {
+    return true;
+  }
+
+  const lastSuccessfulUpdate = state.apiStatus.lastSuccessfulUpdate;
+  if (!lastSuccessfulUpdate) {
+    return true;
+  }
+
+  const lastUpdatedMs = new Date(lastSuccessfulUpdate).getTime();
+  if (!Number.isFinite(lastUpdatedMs)) {
+    return true;
+  }
+
+  return Date.now() - lastUpdatedMs >= REFRESH_INTERVAL_MS;
 }
 
 async function readStorage(env: WorkerEnv): Promise<MetalState | null> {
@@ -224,21 +234,20 @@ async function writeStorage(env: WorkerEnv, data: MetalState) {
 
 async function refreshSnapshot(env: WorkerEnv) {
   const stored = (await readStorage(env)) ?? createInitialState();
-  if (!env.METALS_DEV_API_KEY) throw new Error("METALS_DEV_API_KEY secret is not configured.");
   try {
-    const response = await fetch(`${METALS_API_URL}?api_key=${encodeURIComponent(env.METALS_DEV_API_KEY)}&currency=INR&unit=g`, { headers: { Accept: "application/json" } });
-    if (!response.ok) throw new Error(`Metals.Dev returned ${response.status}.`);
-    const snapshot = computeSnapshotFromApi(await response.json());
+    const response = await fetch(IBJA_RATES_URL, { headers: { Accept: "text/html,application/xhtml+xml" } });
+    if (!response.ok) throw new Error(`IBJA website returned ${response.status}.`);
+    const snapshot = computeSnapshotFromIbjaHtml(await response.text());
     const refreshedAt = new Date().toISOString();
     const next: MetalState = {
       ...stored,
-      apiStatus: { provider: "Metals.Dev", status: "Connected", lastSuccessfulUpdate: refreshedAt, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), apiUsageCounter: "-" },
+      apiStatus: { provider: "IBJA", status: "Connected", lastSuccessfulUpdate: refreshedAt, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), apiUsageCounter: "-" },
       previousSnapshot: stored.currentSnapshot, currentSnapshot: snapshot,
     };
     await writeStorage(env, next);
     return next;
   } catch (error) {
-    const failed: MetalState = { ...stored, apiStatus: { ...stored.apiStatus, status: "Error", nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), errorMessage: error instanceof Error ? error.message : "Unable to fetch Metals.Dev." } };
+    const failed: MetalState = { ...stored, apiStatus: { ...stored.apiStatus, status: "Error", nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()), errorMessage: error instanceof Error ? error.message : "Unable to fetch IBJA rates." } };
     await writeStorage(env, failed);
     throw error;
   }
@@ -247,8 +256,8 @@ async function refreshSnapshot(env: WorkerEnv) {
 app.get("/api/metals", async (c) => {
   let state = (await readStorage(c.env)) ?? createInitialState();
 
-  // Bootstrap the first snapshot automatically when KV is empty.
-  if (!state.currentSnapshot && c.env.METALS_DEV_API_KEY) {
+  // Keep public rates aligned with the latest hourly provider snapshot.
+  if (shouldRefreshState(state)) {
     try {
       state = await refreshSnapshot(c.env);
     } catch {
