@@ -423,6 +423,7 @@ function App() {
 
 function HomePage() {
   const [gold999Price, setGold999Price] = useState<number | null>(null);
+  const [gold995Price, setGold995Price] = useState<number | null>(null);
   const [silver999Price, setSilver999Price] = useState<number | null>(null);
 
   useEffect(() => {
@@ -436,12 +437,14 @@ function HomePage() {
           return;
         }
         setGold999Price(typeof state.gold999Price === "number" ? state.gold999Price : null);
+        setGold995Price(typeof state.gold995Price === "number" ? state.gold995Price : null);
         setSilver999Price(typeof state.silver999Price === "number" ? state.silver999Price : null);
       } catch {
         if (!isActive) {
           return;
         }
         setGold999Price(null);
+        setGold995Price(null);
         setSilver999Price(null);
       }
     };
@@ -540,6 +543,22 @@ function HomePage() {
             <div className="price">
               <span>₹</span>
               <strong>{formatRate(gold999Price)}</strong>
+            </div>
+          </div>
+
+          <div className="rate-card gold">
+            <div className="rate-left">
+              <div className="metal-icon">Au</div>
+
+              <div>
+                <h3>GOLD 995</h3>
+                <p>99.5% शुद्ध सोना</p>
+              </div>
+            </div>
+
+            <div className="price">
+              <span>₹</span>
+              <strong>{formatRate(gold995Price)}</strong>
             </div>
           </div>
 
