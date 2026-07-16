@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { fetchMetalState } from "./metalsService";
 import "./App.css";
 
 type MaterialItem = {
@@ -420,6 +422,48 @@ function App() {
 }
 
 function HomePage() {
+  const [gold999Price, setGold999Price] = useState<number | null>(null);
+  const [silver999Price, setSilver999Price] = useState<number | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+    const REFRESH_INTERVAL_MS = 3_600_000;
+
+    const loadRates = async () => {
+      try {
+        const state = await fetchMetalState();
+        if (!isActive) {
+          return;
+        }
+        setGold999Price(typeof state.gold999Price === "number" ? state.gold999Price : null);
+        setSilver999Price(typeof state.silver999Price === "number" ? state.silver999Price : null);
+      } catch {
+        if (!isActive) {
+          return;
+        }
+        setGold999Price(null);
+        setSilver999Price(null);
+      }
+    };
+
+    void loadRates();
+    const timer = window.setInterval(() => {
+      void loadRates();
+    }, REFRESH_INTERVAL_MS);
+
+    return () => {
+      isActive = false;
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  const formatRate = (value: number | null) => {
+    if (value === null) {
+      return "--";
+    }
+    return value.toLocaleString("en-IN");
+  };
+
   return (
     <>
       <header className="header">
@@ -495,7 +539,7 @@ function HomePage() {
 
             <div className="price">
               <span>₹</span>
-              <strong>--</strong>
+              <strong>{formatRate(gold999Price)}</strong>
             </div>
           </div>
 
@@ -511,7 +555,7 @@ function HomePage() {
 
             <div className="price">
               <span>₹</span>
-              <strong>--</strong>
+              <strong>{formatRate(silver999Price)}</strong>
             </div>
           </div>
         </div>
