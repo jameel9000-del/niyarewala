@@ -5,6 +5,7 @@ type Snapshot = {
   gold999Price: number;
   gold995Price: number;
   silver999Price: number;
+  platinum999Price: number;
 };
 
 type Adjustment = { mode: "fixed" | "percentage"; value: number };
@@ -105,14 +106,47 @@ function toPricePerGram(value: number, unit: string) {
   }
 }
 
+function readPriceValue(source: any, aliases: string[]) {
+  const containers = [source?.metals, source?.data, source?.rates, source?.ibja, source];
+  for (const container of containers) {
+    if (!container || typeof container !== "object") {
+      continue;
+    }
+
+    const entries = Object.entries(container as Record<string, unknown>);
+    const lowerCaseMap = new Map(entries.map(([key, value]) => [key.toLowerCase(), value]));
+    for (const alias of aliases) {
+      const value = lowerCaseMap.get(alias.toLowerCase());
+      if (typeof value === "number") {
+        return value;
+      }
+      if (value && typeof value === "object") {
+        const price = (value as { price?: unknown; value?: unknown }).price;
+        const fallback = (value as { price?: unknown; value?: unknown }).value;
+        if (typeof price === "number") {
+          return price;
+        }
+        if (typeof fallback === "number") {
+          return fallback;
+        }
+      }
+    }
+  }
+  return null;
+}
+
 function computeSnapshotFromApi(json: any): Snapshot {
   if (!json || json.status !== "success") throw new Error(json?.error_message || "Invalid Metals.Dev response.");
-  const gold = json.metals?.gold;
-  const silver = json.metals?.silver;
-  if (typeof gold !== "number" || typeof silver !== "number") throw new Error("Metals.Dev response is missing gold or silver rates.");
+  const gold = readPriceValue(json, ["gold", "gold_999", "gold999", "xau", "24k", "24kt"]);
+  const silver = readPriceValue(json, ["silver", "silver_999", "silver999", "xag"]);
+  const platinum = readPriceValue(json, ["platinum", "platinum_999", "platinum999", "xpt", "pt"]);
+  if (typeof gold !== "number" || typeof silver !== "number" || typeof platinum !== "number") {
+    throw new Error("Metals API response is missing gold, silver or platinum rates.");
+  }
   const unit = json.unit ?? "g";
   const goldPerGram = toPricePerGram(gold, unit);
   const silverPerGram = toPricePerGram(silver, unit);
+  const platinumPerGram = toPricePerGram(platinum, unit);
 
   let timestampStr: string;
   if (typeof json.timestamp === "number") {
@@ -128,6 +162,7 @@ function computeSnapshotFromApi(json: any): Snapshot {
     gold999Price: Math.round(goldPerGram * 10), // ₹ / 10 g
     gold995Price: Math.round(goldPerGram * 10 * 0.995), // ₹ / 10 g at 99.5% purity
     silver999Price: Math.round(silverPerGram * 1000), // ₹ / kg
+    platinum999Price: Math.round(platinumPerGram * 10), // ₹ / 10 g
   };
 }
 
@@ -136,12 +171,18 @@ function applyAdjustment(price: number, adjustment: Adjustment) {
 }
 
 function ratesFor(snapshot: Snapshot | null, state: MetalState, useManual = false) {
-  if (!snapshot) return { gold999: null, gold995: null, silver999: null };
-  if (useManual && state.manualPriceMode) return state.manualPrices;
+  if (!snapshot) return { gold999: null, gold995: null, silver999: null, platinum999: null };
+  if (useManual && state.manualPriceMode) {
+    return {
+      ...state.manualPrices,
+      platinum999: typeof snapshot.platinum999Price === "number" ? Math.round(snapshot.platinum999Price) : null,
+    };
+  }
   return {
     gold999: applyAdjustment(snapshot.gold999Price, state.gold999Adjustment),
     gold995: applyAdjustment(snapshot.gold995Price, state.gold995Adjustment),
     silver999: applyAdjustment(snapshot.silver999Price, state.silver999Adjustment),
+    platinum999: typeof snapshot.platinum999Price === "number" ? Math.round(snapshot.platinum999Price) : null,
   };
 }
 
@@ -158,7 +199,7 @@ function formatSnapshotForResponse(state: MetalState) {
   const previous = ratesFor(state.previousSnapshot, state);
   return {
     currentSnapshot: state.currentSnapshot, previousSnapshot: state.previousSnapshot,
-    gold999Price: current.gold999, gold995Price: current.gold995, silver999Price: current.silver999,
+    gold999Price: current.gold999, gold995Price: current.gold995, silver999Price: current.silver999, platinum999Price: current.platinum999,
     gold999Change: changeFor(current.gold999, previous.gold999), gold995Change: changeFor(current.gold995, previous.gold995), silver999Change: changeFor(current.silver999, previous.silver999),
     apiStatus: { ...state.apiStatus, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()) },
     schedule: FIXED_SCHEDULE, timezone: INDIA_KOLKATA_TZ, nextScheduledUpdate: formatScheduleLabel(getNextScheduledUpdate()),

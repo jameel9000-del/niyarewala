@@ -8,6 +8,7 @@ export interface MetalServiceState extends MetalPriceSettings {
   gold999Price: number | null;
   gold995Price: number | null;
   silver999Price: number | null;
+  platinum999Price: number | null;
   gold999Change: {
     difference: number;
     percentage: number;

@@ -425,6 +425,7 @@ function HomePage() {
   const [gold999Price, setGold999Price] = useState<number | null>(null);
   const [gold995Price, setGold995Price] = useState<number | null>(null);
   const [silver999Price, setSilver999Price] = useState<number | null>(null);
+  const [platinum999Price, setPlatinum999Price] = useState<number | null>(null);
 
   useEffect(() => {
     let isActive = true;
@@ -439,6 +440,7 @@ function HomePage() {
         setGold999Price(typeof state.gold999Price === "number" ? state.gold999Price : null);
         setGold995Price(typeof state.gold995Price === "number" ? state.gold995Price : null);
         setSilver999Price(typeof state.silver999Price === "number" ? state.silver999Price : null);
+        setPlatinum999Price(typeof state.platinum999Price === "number" ? state.platinum999Price : null);
       } catch {
         if (!isActive) {
           return;
@@ -446,6 +448,7 @@ function HomePage() {
         setGold999Price(null);
         setGold995Price(null);
         setSilver999Price(null);
+        setPlatinum999Price(null);
       }
     };
 
@@ -575,6 +578,22 @@ function HomePage() {
             <div className="price">
               <span>₹</span>
               <strong>{formatRate(silver999Price)}</strong>
+            </div>
+          </div>
+
+          <div className="rate-card silver">
+            <div className="rate-left">
+              <div className="metal-icon">Pt</div>
+
+              <div>
+                <h3>PLATINUM 999</h3>
+                <p>शुद्ध प्लेटिनम</p>
+              </div>
+            </div>
+
+            <div className="price">
+              <span>₹</span>
+              <strong>{formatRate(platinum999Price)}</strong>
             </div>
           </div>
         </div>
