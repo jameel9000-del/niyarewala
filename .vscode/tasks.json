@@ -1,0 +1,102 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build-frontend",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "wrangler-triggers-deploy",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"triggers",
+				"deploy"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "wrangler-triggers-list",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"triggers",
+				"list"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "wrangler-versions-help",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"versions",
+				"--help"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "kv-get-metal-state",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"kv",
+				"key",
+				"get",
+				"--namespace-id",
+				"2fab1c5023454cd8a3ec26c1a485bb2c",
+				"niyarewala-metal-prices-v1"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "kv-list-keys",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"kv",
+				"key",
+				"list",
+				"--namespace-id",
+				"2fab1c5023454cd8a3ec26c1a485bb2c"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "wrangler-whoami",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"whoami"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "wrangler-versions-list",
+			"type": "shell",
+			"command": "npx.cmd",
+			"args": [
+				"wrangler",
+				"versions",
+				"list"
+			],
+			"isBackground": false
+		}
+	]
+}

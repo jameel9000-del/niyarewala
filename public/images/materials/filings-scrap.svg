@@ -1,0 +1,9 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="40" fill="#f0ece4" />
+  <rect x="160" y="220" width="880" height="340" rx="40" fill="#fff5e4" />
+  <path d="M220 420 l760 -40" stroke="#b08a4e" stroke-width="24" stroke-linecap="round" />
+  <path d="M280 470 l620 30" stroke="#8c6c3f" stroke-width="18" stroke-linecap="round" />
+  <path d="M360 340 l350 90" stroke="#b27f3f" stroke-width="20" stroke-linecap="round" />
+  <path d="M540 300 l300 60" stroke="#be8f4d" stroke-width="28" stroke-linecap="round" />
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="64" fill="#6d4b2f">फाइलिंग, कतरन और बेंच स्क्रैप</text>
+</svg>

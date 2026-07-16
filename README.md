@@ -82,6 +82,19 @@ Monitor your workers:
 npx wrangler tail
 ```
 
+## Metals.Dev rate snapshots
+
+The public website only reads the last saved Worker KV snapshot from `/api/metals`; it never calls Metals.Dev from the browser. Cloudflare Cron Triggers refresh the snapshot at 02:00 and 14:00 `Asia/Kolkata` (the configured UTC crons are `30 20 * * *` and `30 8 * * *`).
+
+Before the first production deploy, create a KV namespace and add its namespace id to the `METAL_STATE_KV` binding in `wrangler.json`. Then configure these Worker secrets (never Vite variables):
+
+```bash
+npx wrangler secret put METALS_DEV_API_KEY
+npx wrangler secret put ADMIN_API_TOKEN
+```
+
+Use `ADMIN_API_TOKEN` to sign into `/admin`. It is sent only as a request authorization header for secured admin refresh/settings routes and is not stored in the browser. A scheduled refresh saves the current snapshot, retains the previous snapshot for the displayed up/down change, and keeps the last successful rate if the provider is unavailable.
+
 ## Additional Resources
 
 - [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)

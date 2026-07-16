@@ -1,0 +1,12 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="40" fill="#f4efe4" />
+  <rect x="120" y="150" width="960" height="420" rx="30" fill="#d1b98e" />
+  <rect x="180" y="210" width="860" height="260" rx="20" fill="#f9f2e8" />
+  <path d="M240 420 Q320 360 430 420 T660 420 T890 420" fill="none" stroke="#8c6a2f" stroke-width="24" stroke-linecap="round" />
+  <circle cx="300" cy="250" r="42" fill="#cfa268" />
+  <circle cx="420" cy="310" r="28" fill="#a17b45" />
+  <circle cx="580" cy="280" r="26" fill="#b68c58" />
+  <path d="M230 470 l100 10 l-20 40 l-90 -20 Z" fill="#c0a06d" />
+  <path d="M650 470 l90 9 l-15 35 l-85 -18 Z" fill="#ad8a5e" />
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="64" fill="#5d4226">वर्कशॉप गाद और स्वीप</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="40" fill="#eef3f2" />
+  <rect x="220" y="220" width="760" height="380" rx="40" fill="#f6f3eb" />
+  <path d="M280 430 c100 -20 220 -40 340 -20 c120 20 220 60 300 120" stroke="#8f7d62" stroke-width="34" fill="none" stroke-linecap="round" />
+  <circle cx="380" cy="410" r="40" fill="#c8af7d" />
+  <circle cx="720" cy="460" r="36" fill="#b69f75" />
+  <rect x="520" y="310" width="220" height="100" rx="30" fill="#d8c8b1" />
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="64" fill="#5d5240">वॉश और प्रोसेसिंग अवशेष</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="40" fill="#fff8eb" />
+  <circle cx="550" cy="320" r="170" fill="#d9b276" />
+  <circle cx="570" cy="300" r="130" fill="#f4e1c3" />
+  <path d="M380 420 l80 -40 l220 -40 l40 70 l-100 40 Z" fill="#c2894b" />
+  <path d="M450 350 l220 -20" stroke="#7f5d35" stroke-width="22" stroke-linecap="round" />
+  <circle cx="760" cy="420" r="28" fill="#b68c58" />
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="64" fill="#76512d">बफिंग और पॉलिशिंग वेस्ट</text>
+</svg>
